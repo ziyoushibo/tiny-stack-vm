@@ -52,12 +52,10 @@ function run(p, inp) {
     if (pc + imm >= n) return done(9);
     steps++;
     const next = pc + 1 + imm;
+    const opcode = p[pc];
     if (sp < pops) return done(2);
     if (sp - pops + pushes > STACK_MAX) return done(3);
     pc = next;
-    const byte = p[next - 1 - imm] ?? p[pc - 1 - imm];
-    // opcode byte is at the original pc; recover it from next-1-imm
-    const opcode = p[next - 1 - imm];
     switch (opcode) {
       case 0x00: return done(0);
       case 0x01: D[sp++] = (p[next - 1] << 24) >> 24; break;
